@@ -10,10 +10,10 @@ import 'package:weather/ui/pages/home/widget/info_location.dart';
 import 'package:weather/ui/pages/home/widget/item_info_future_day.dart';
 
 import 'package:intl/intl.dart';
+import 'package:weather/ui/pages/home/widget/progress.dart';
 import 'package:weather/utils/utils.dart';
 import '../../../entities/weather_repository.dart';
 import 'home_logic.dart';
-import 'widget/progress.dart';
 
 class HomePage extends StatefulWidget {
   final WeatherRepository data;
@@ -30,19 +30,22 @@ class _HomePageState extends State<HomePage> {
   late Timer countTimerToCallApi;
   late Timer countTimer;
   late Timer countTimerDay;
+  ScrollController controller = ScrollController();
 
   @override
   void initState() {
     state.weatherRepositoryResponse.value = widget.data;
+    controller.addListener(() {controller.position.pixels == controller.position.maxScrollExtent;});
     super.initState();
     reCallApiInit();
     setBackgroundInit();
     setTime();
     setDay();
+
   }
 
   void reCallApiInit() {
-    countTimerToCallApi = Timer.periodic(const Duration(minutes: 5), (Timer t) {
+    countTimerToCallApi = Timer.periodic(const Duration(minutes: 1), (Timer t) {
       logic.initData();
     });
   }
@@ -137,6 +140,7 @@ class _HomePageState extends State<HomePage> {
           height: 200,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
+            controller: controller,
             shrinkWrap: true,
             itemCount: 5,
             itemBuilder: (context, index) => ItemFutureDay(data: state.weatherRepositoryResponse.value.lsConsolidatedWeather![index]),
@@ -159,8 +163,8 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }),
-        const SizedBox(height: 20),
-        //ProgressBar(min: state.min.value),
+        const SizedBox(height: 10),
+        ProgressBar(min: state.min.value),
         const SizedBox(height: 100),
       ]),
     );

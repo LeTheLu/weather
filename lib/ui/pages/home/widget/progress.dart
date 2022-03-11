@@ -7,10 +7,18 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 10,
-      color: Colors.red,
-      width: min! / 60 * 100,
+    return Column(
+      children: [
+        Container(
+          height: 10,
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              color: Colors.white30,
+              border: Border.all(color: Colors.white,width: 1)
+          ),
+          width: min! / 60 * 300,
+        )
+      ],
     );
   }
 }
