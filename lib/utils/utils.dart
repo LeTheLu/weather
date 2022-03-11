@@ -1,9 +1,8 @@
 import '../commons/app_images.dart';
 
 class Utils {
-  static String getBackground({String? hour , String? currentHour}){
-    if(hour != currentHour){
-      hour = currentHour;
+  static String getBackground({String? hour}){
+
       switch(hour) {
         case "5" : {
           return AppImages.sunny1;
@@ -36,7 +35,6 @@ class Utils {
           return AppImages.night2;
         }
       }
-    }
-    return AppImages.after2;
+      return "";
   }
 }

@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     state.weatherRepositoryResponse.value = widget.data;
     super.initState();
     reCallApiInit();
+    setBackgroundInit();
     setTime();
     setDay();
   }
@@ -53,17 +54,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void setTime() {
-    String house = DateFormat('HH').format(DateTime.now());
+    String hour = DateFormat('HH').format(DateTime.now());
 
     countTimer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       logic.updateSecond();
-      // if(house != state.time.value.substring(0,2)){
-      //
-      // }
-      // house = state.time.value.substring(0,2);
-      final image = Utils.getBackground(hour: house, currentHour: state.time.value.substring(0, 2));
-      logic.updateBackground(imageLink: image);
+      if(hour != state.time.value.substring(0, 2)){
+        final image = Utils.getBackground(hour: state.time.value.substring(0, 2));
+        logic.updateBackground(imageLink: image);
+      }
     });
+  }
+
+  setBackgroundInit(){
+    String hour = DateFormat('HH').format(DateTime.now());
+    Utils.getBackground(hour: hour);
   }
 
   @override
